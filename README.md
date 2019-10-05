@@ -9,6 +9,9 @@
 
 
 ## 1. Install dependencies
+
+This works for Python>=3.7.
+
 ```
 pip install -r requirements.txt
 ```
@@ -48,8 +51,8 @@ Uploading serverless-reko-dev-1570307440.zip (6.0MiB)..
 Your updated Zappa deployment is live!: https://xxxxxxx.execute-api.us-east-1.amazonaws.com/dev
 ```
 
-From the first line, remember the function name: `serverless-reko-dev`
-From the last line, remember the endpoint: `https://xxxxxxx.execute-api.us-east-1.amazonaws.com/dev`
+- From the first line, remember the function name: `serverless-reko-dev`
+- From the last line, remember the endpoint: `https://xxxxxxx.execute-api.us-east-1.amazonaws.com/dev`
 
 Create `.env` file in project folder and add these two variables:
 
@@ -74,6 +77,10 @@ BUCKET_NAME=some-bucket-name
 DB_NAME=some-db-name
 ```
 
+- `TELEGRAM_TOKEN` is the token of your Telegram bot. Obtain it [here](https://core.telegram.org/bots#6-botfather)
+- `BUCKET_NAME` is the S3 bucket to store uploaded photos.
+- `DB_NAME` is the DynamoDB table name where the app will store data.
+
 Run commands:
 ```
 flask setup
@@ -82,6 +89,6 @@ flask post-setup
 
 ## 4. Have fun!
 
-Now send some pictures to your chatbot. It should be able to reply.
+Now send some selfies to your chatbot. It should be able to reply.
 
 
