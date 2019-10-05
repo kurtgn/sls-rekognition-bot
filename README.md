@@ -1,6 +1,6 @@
 # Installation
 
-## 0. Create AWS account, authorize your computer
+## ☁️ 0. Create AWS account, authorize your computer
 
 - If you don't have an AWS Account - create it (you will need to enter your credit card, sorry)
 - Install [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)
@@ -8,7 +8,7 @@
 
 
 
-## 1. Install dependencies
+## 🔌 1. Install dependencies
 
 This works for Python>=3.7.
 
@@ -23,7 +23,7 @@ poetry install
 ```
 
 
-## 2. Deploy code to Lambda
+## 🏹 2. Deploy code to Lambda
 
 After that, open `zappa_settings.json` and change `s3_bucket` variable to something unique (these buckets need to have globally unique names):
 
@@ -63,7 +63,7 @@ LAMBDA_ENDPOINT=https://xxxxxxx.execute-api.us-east-1.amazonaws.com/dev
 
 Okay, you have deployed your code but, there is a bit more to configure.
 
-## 3. Set other variables
+## 🛠️ 3. Set other variables
 
 
 
@@ -87,12 +87,12 @@ flask setup
 flask post-setup
 ```
 
-## 4. Have fun!
+## 🔥 4. Have fun!
 
 Now send some selfies to your chatbot. It should be able to reply.
 
 
-## 5. Teardown
+## ☠️ 5. Teardown
 
 If you want to delete everything, you need to do two things:
 
