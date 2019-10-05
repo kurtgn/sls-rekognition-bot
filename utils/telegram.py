@@ -1,7 +1,12 @@
+import logging
+import os
 from operator import itemgetter
 from typing import Optional
 
 import requests
+
+
+logger = logging.getLogger(__name__)
 
 
 class Bot:
@@ -46,3 +51,12 @@ class Bot:
             f'https://api.telegram.org/bot{self.token}/sendMessage',
             json={'chat_id': chat_id, 'text': text},
         )
+
+
+bot = Bot(os.environ['TELEGRAM_TOKEN'])
+
+
+def set_webhook():
+    url = os.environ['LAMBDA_ENDPOINT'] + '/telegram_webhook'
+    logger.warning(f'Setting webhook to {url}...')
+    bot.set_webhook(url=url)

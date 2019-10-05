@@ -5,11 +5,6 @@ from flask import Flask, escape, request
 
 import utils
 
-TG_TOKEN = '779201721:AAEW8T2834VPR6n96qD-Qt_oiigT60cdOZA'
-
-bot = utils.Bot(TG_TOKEN)
-
-
 app = Flask(__name__)
 
 
@@ -19,9 +14,9 @@ def hello():
 
     chat_id = body['message']['chat']['id']
 
-    picture_url = bot.fetch_image_from_tg_payload(payload=body)
+    picture_url = utils.bot.fetch_image_from_tg_payload(payload=body)
     if not picture_url:
-        bot.send_text_message(
+        utils.bot.send_text_message(
             chat_id=chat_id,
             text='This is not an image. I only work with images.',
         )
@@ -32,7 +27,7 @@ def hello():
     emotions = utils.get_emotions(res.content)
 
     if not emotions:
-        bot.send_text_message(
+        utils.bot.send_text_message(
             chat_id=chat_id,
             text='Unable to detect emotions. This is probably not a face.',
         )
@@ -40,7 +35,7 @@ def hello():
         return {'status': 'ok'}
 
     text = utils.emotions_summary(emotions)
-    bot.send_text_message(chat_id=chat_id, text=text)
+    utils.bot.send_text_message(chat_id=chat_id, text=text)
 
     s3_url = utils.upload_to_s3(url=picture_url, content=res.content)
 
@@ -56,5 +51,23 @@ def hello():
     return {'status': 'ok'}
 
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port='5000')
+@app.cli.command("setup")
+def setup():
+    utils.create_table()
+    utils.create_bucket()
+
+
+@app.cli.command("teardown")
+def teardown():
+    utils.delete_table()
+    utils.delete_bucket()
+
+
+@app.cli.command("post-setup")
+def post_setup():
+    utils.upload_env_vars()
+    utils.set_webhook()
+
+
+# if __name__ == '__main__':
+#     app.run(host='0.0.0.0', port='5000')

@@ -1,4 +1,5 @@
 import logging
+import os
 from dataclasses import dataclass
 from datetime import datetime
 from decimal import Decimal
@@ -13,10 +14,11 @@ logger = logging.getLogger(__name__)
 dynamodb = boto3.resource('dynamodb')
 
 
-TABLE_NAME = 'rekognition_selfies2'
+DB_NAME = os.environ['DB_NAME']
 
 
 def create_table():
+    logger.warning(f'creating table {DB_NAME}...')
 
     dynamodb.create_table(
         AttributeDefinitions=[
@@ -24,13 +26,19 @@ def create_table():
             {'AttributeName': 'timestamp', 'AttributeType': 'S'},
             # {'AttributeName': 'emotion_confidence', 'AttributeType': 'N'},
         ],
-        TableName=TABLE_NAME,
+        TableName=DB_NAME,
         KeySchema=[
             {'AttributeName': 'emotion_type', 'KeyType': 'HASH'},
             {'AttributeName': 'timestamp', 'KeyType': 'RANGE'},
         ],
         BillingMode='PAY_PER_REQUEST',
     )
+
+
+def delete_table():
+    logger.warning(f'deleting table {DB_NAME}...')
+    table = dynamodb.Table(DB_NAME)
+    table.delete()
 
 
 @dataclass
@@ -42,7 +50,7 @@ class Selfie:
 
 
 def put_selfie(selfie: Selfie) -> None:
-    table = dynamodb.Table(TABLE_NAME)
+    table = dynamodb.Table(DB_NAME)
     table.put_item(
         Item={
             'emotion_type': selfie.emotion_type,
@@ -72,7 +80,7 @@ def get_selfies(emotion_type: str, limit: int, date: datetime) -> List[Selfie]:
 
     """
 
-    table = dynamodb.Table(TABLE_NAME)
+    table = dynamodb.Table(DB_NAME)
 
     date_str = date.isoformat()[:10]  # YYYY-MM-DD
 

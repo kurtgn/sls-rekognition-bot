@@ -1,21 +1,24 @@
+import logging
 import os
 from uuid import uuid4
 
 import boto3
 import requests
 
+logger = logging.getLogger(__name__)
 s3 = boto3.resource('s3')
 
 
-BUCKET_NAME = 'serverless-rekognition-chatbot'
+BUCKET_NAME = os.environ['BUCKET_NAME']
 
 
 def create_bucket():
-    bucket = s3.create_bucket(Bucket=BUCKET_NAME)
-    print(bucket)
+    logger.warning(f'creating bucket {BUCKET_NAME}...')
+    s3.create_bucket(Bucket=BUCKET_NAME)
 
 
 def delete_bucket():
+    logger.warning(f'deleting bucket {BUCKET_NAME}...')
     bucket = s3.Bucket(BUCKET_NAME)
     bucket.objects.all().delete()
     bucket.delete()
