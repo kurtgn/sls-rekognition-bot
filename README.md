@@ -25,13 +25,13 @@ poetry install
 
 ## 2. Deploy code to Lambda
 
-After that, open `zappa_settings.json` and change `s3_bucket` variable to something else:
+After that, open `zappa_settings.json` and change `s3_bucket` variable to something unique (these buckets need to have globally unique names):
 
 ```
 {
     "dev": {
         ...
-        "s3_bucket": "some-other-unique-name",
+        "s3_bucket": "some-unique-name",
         ...
     }
 }
@@ -61,7 +61,7 @@ LAMBDA_FUNCTION_NAME=serverless-reko-dev
 LAMBDA_ENDPOINT=https://xxxxxxx.execute-api.us-east-1.amazonaws.com/dev
 ```
 
-
+Okay, you have deployed your code but, there is a bit more to configure.
 
 ## 3. Set other variables
 
