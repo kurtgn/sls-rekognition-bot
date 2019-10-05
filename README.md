@@ -54,7 +54,7 @@ Your updated Zappa deployment is live!: https://xxxxxxx.execute-api.us-east-1.am
 - From the first line, remember the function name: `serverless-reko-dev`
 - From the last line, remember the endpoint: `https://xxxxxxx.execute-api.us-east-1.amazonaws.com/dev`
 
-Create `.env` file in project folder and add these two variables:
+Create the `.env` file in the project folder and add two variables from above: 
 
 ```
 LAMBDA_FUNCTION_NAME=serverless-reko-dev
@@ -92,3 +92,9 @@ flask post-setup
 Now send some selfies to your chatbot. It should be able to reply.
 
 
+## 5. Teardown
+
+If you want to delete everything, you need to do two things:
+
+- To undeploy your app, run: `zappa undeploy dev`
+- To delete saved pictures and data, run `flask teardown`.
