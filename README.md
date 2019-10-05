@@ -1,3 +1,11 @@
+# How this works
+
+This is a telegram bot that uses AWS Rekognition to detect emotions on selfies.
+
+![](tg_picture.jpg)
+
+
+
 # Installation
 
 ## ☁️ 0. Create AWS account, authorize your computer
