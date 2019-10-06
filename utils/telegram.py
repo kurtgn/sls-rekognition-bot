@@ -53,7 +53,7 @@ class Bot:
         )
 
 
-bot = Bot(os.environ['TELEGRAM_TOKEN'])
+bot = Bot(os.environ.get('TELEGRAM_TOKEN'))
 
 
 def set_webhook():

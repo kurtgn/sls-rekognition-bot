@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 s3 = boto3.resource('s3')
 
 
-BUCKET_NAME = os.environ['BUCKET_NAME']
+BUCKET_NAME = os.environ.get('BUCKET_NAME')
 
 
 def create_bucket():

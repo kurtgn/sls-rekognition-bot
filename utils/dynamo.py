@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 dynamodb = boto3.resource('dynamodb')
 
 
-DB_NAME = os.environ['DB_NAME']
+DB_NAME = os.environ.get('DB_NAME')
 
 
 def create_table():

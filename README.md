@@ -28,23 +28,23 @@ or:
 ```
 poetry install
 ```
+## 🛠️ 2. Generate unique names
 
-
-## 🏹 2. Deploy code to Lambda
-
-After that, open `zappa_settings.json` and change `s3_bucket` variable to something unique (these buckets need to have globally unique names):
+The app needs a DynamoDB table and an S3 bucket with unique names.
+Create these names by running:
 
 ```
-{
-    "dev": {
-        ...
-        "s3_bucket": "some-unique-name",
-        ...
-    }
-}
+flask prepare
+flask createdb
 ```
 
-And then run:
+This will create an `.env` file in your app directory with required variables.
+
+---
+
+## 🏹 3. Deploy code to Lambda
+
+Run:
 
 ```
 zappa deploy dev
@@ -61,7 +61,7 @@ Your updated Zappa deployment is live!: https://xxxxxxx.execute-api.us-east-1.am
 - From the first line, remember the function name: `serverless-reko-dev`
 - From the last line, remember the endpoint: `https://xxxxxxx.execute-api.us-east-1.amazonaws.com/dev`
 
-Create the `.env` file in the project folder and add two variables from above: 
+Open the `.env` file in the app folder and add two variables from above: 
 
 ```
 LAMBDA_FUNCTION_NAME=serverless-reko-dev
@@ -70,38 +70,31 @@ LAMBDA_ENDPOINT=https://xxxxxxx.execute-api.us-east-1.amazonaws.com/dev
 
 Okay, you have deployed your code but, there is a bit more to configure.
 
-## 🛠️ 3. Set other variables
+## 🤖 4. Add Telegram bot token
 
+Create a Telegram bot [like this](https://core.telegram.org/bots#6-botfather)
 
-
-Add three more lines to `.env` file.
+Add bot token to `.env` file:
 
 ```
 ...
 
 TELEGRAM_TOKEN=your-telegram-token
-BUCKET_NAME=some-bucket-name
-DB_NAME=some-db-name
 ```
-
-- `TELEGRAM_TOKEN` is the token of your Telegram bot. Obtain it [here](https://core.telegram.org/bots#6-botfather)
-- `BUCKET_NAME` is the S3 bucket to store uploaded photos.
-- `DB_NAME` is the DynamoDB table name where the app will store data.
 
 Run commands:
 ```
-flask setup
-flask post-setup
+flask connect-bot
 ```
 
-## 🔥 4. Have fun!
+## 🔥 5. Have fun!
 
 Now send some selfies to your chatbot. It should be able to reply.
 
 
-## ☠️ 5. Teardown
+## ☠️ 6. Teardown
 
 If you want to delete everything, you need to do two things:
 
 - To undeploy your app, run: `zappa undeploy dev`
-- To delete saved pictures and data, run `flask teardown`.
+- To drop the DynamoDB table and S3 bucket with photos, run `flask dropdb`.

@@ -51,22 +51,27 @@ def hello():
     return {'status': 'ok'}
 
 
-@app.cli.command("setup")
+@app.cli.command("prepare")
+def setup():
+    utils.prepare_env()
+
+
+@app.cli.command("createdb")
 def setup():
     utils.create_table()
     utils.create_bucket()
 
 
-@app.cli.command("teardown")
-def teardown():
-    utils.delete_table()
-    utils.delete_bucket()
-
-
-@app.cli.command("post-setup")
+@app.cli.command("connect-bot")
 def post_setup():
     utils.upload_env_vars()
     utils.set_webhook()
+
+
+@app.cli.command("dropdb")
+def teardown():
+    utils.delete_table()
+    utils.delete_bucket()
 
 
 # if __name__ == '__main__':

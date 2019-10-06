@@ -5,14 +5,18 @@
         "profile_name": "default",
         "project_name": "serverless-reko",
         "runtime": "python3.7",
-        "extra_permissions": [{
-            "Effect": "Allow",
-            "Action": ["*"],
-            "Resource": "*"
-        }],
+        "extra_permissions": [
+            {
+                "Effect": "Allow",
+                "Action": [
+                    "*"
+                ],
+                "Resource": "*"
+            }
+        ],
         "log_level": "INFO",
         "exclude": [
-          ".*"
+            ".*"
         ]
     }
 }
