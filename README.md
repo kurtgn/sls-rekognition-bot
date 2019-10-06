@@ -68,8 +68,6 @@ LAMBDA_FUNCTION_NAME=serverless-reko-dev
 LAMBDA_ENDPOINT=https://xxxxxxx.execute-api.us-east-1.amazonaws.com/dev
 ```
 
-Okay, you have deployed your code but, there is a bit more to configure.
-
 ## 🤖 4. Add Telegram bot token
 
 Create a Telegram bot [like this](https://core.telegram.org/bots#6-botfather)
