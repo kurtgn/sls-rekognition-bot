@@ -1,7 +1,9 @@
 import json
 from pathlib import Path
 from uuid import uuid4
+import logging
 
+logger = logging.getLogger(__name__)
 
 def prepare_env():
     """
@@ -12,6 +14,8 @@ def prepare_env():
 
     also, add "s3_bucket" setting to zappa_settings.json
     """
+
+    logger.warning('Updating .env and zappa_settings.json...')
 
     basedir = Path(__file__).parent.parent
     env_file = basedir / '.env'

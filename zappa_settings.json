@@ -17,6 +17,7 @@
         "log_level": "INFO",
         "exclude": [
             ".*"
-        ]
+        ],
+        "s3_bucket": "selfies-de9605a5"
     }
 }

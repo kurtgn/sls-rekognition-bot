@@ -53,7 +53,7 @@ zappa deploy dev
 You will get some console output. Most important two lines are: 
 
 ```
-Uploading serverless-reko-dev-1570307440.zip (6.0MiB)..
+Waiting for stack serverless-reko-dev to create (this can take a bit)..
 ...
 Your updated Zappa deployment is live!: https://xxxxxxx.execute-api.us-east-1.amazonaws.com/dev
 ```
