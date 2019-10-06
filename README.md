@@ -38,7 +38,7 @@ flask prepare
 flask createdb
 ```
 
-This will create an `.env` file in your app directory with required variables.
+This will create an `.env` file in your app directory with required variables and create AWS resources.
 
 ---
 
