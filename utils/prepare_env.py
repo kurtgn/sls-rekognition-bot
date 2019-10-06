@@ -17,7 +17,6 @@ def prepare_env():
     env_file = basedir / '.env'
 
     if env_file.exists():
-        print('exists!')
         with env_file.open() as f:
             content = f.read()
     else:
@@ -34,7 +33,6 @@ def prepare_env():
         f.write(content)
 
     zappa_settings = basedir / 'zappa_settings.json'
-    print(zappa_settings)
     with zappa_settings.open() as f:
         settings = json.load(f)
 
