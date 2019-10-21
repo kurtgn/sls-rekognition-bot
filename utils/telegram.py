@@ -49,7 +49,7 @@ class Bot:
 
         requests.post(
             f'https://api.telegram.org/bot{self.token}/sendMessage',
-            json={'chat_id': chat_id, 'text': text},
+            json={'chat_id': chat_id, 'text': text, 'parse_mode': 'Markdown'},
         )
 
 

@@ -1,11 +1,56 @@
+import os
 from datetime import datetime
 
 import requests
-from flask import Flask, escape, request
+from flask import Flask, request, render_template, url_for
 
 import utils
+from utils import get_selfies
+from utils.rekognition import EmotionTypes, Emotion
 
 app = Flask(__name__)
+
+
+def get_position_in_top(emotion: Emotion):
+    """
+    Given an emotion, get its position in all of all emotions of this type
+    """
+    selfies = get_selfies(
+        emotion_type=emotion.type, date=datetime.now(), limit=100
+    )
+    confidence_numbers = [s.emotion_confidence for s in selfies] + [
+        emotion.confidence
+    ]
+
+    return (
+        sorted(confidence_numbers, reverse=True).index(emotion.confidence) + 1
+    )
+
+
+def get_link_for_top_emotion(emotion_type: str) -> str:
+    link = (
+        os.environ.get('LAMBDA_ENDPOINT', '')
+        + url_for('top_for_emotion')
+        + '?emotion='
+        + emotion_type
+    )
+    return link
+
+
+@app.route('/top/')
+def top_for_emotion():
+    """ Render selfies with particular emotion """
+
+    emotion = request.args.get('emotion', EmotionTypes.HAPPY)
+
+    selfies = get_selfies(emotion_type=emotion, date=datetime.now(), limit=100)
+
+    return render_template(
+        'top_for_emotion.html',
+        selfies=selfies,
+        emotion=emotion,
+        EmotionTypes=EmotionTypes,
+    )
 
 
 @app.route('/telegram_webhook', methods=['POST'])
@@ -34,15 +79,25 @@ def hello():
 
         return {'status': 'ok'}
 
+    top_emotion = emotions[0]
+
+    position = get_position_in_top(emotion=top_emotion)
+
     text = utils.emotions_summary(emotions)
+
+    text += (
+        f'\n\n👌 You are *#{position} {top_emotion.type} person* today!'
+        f'\nView all {top_emotion.type} people: '
+        f'{get_link_for_top_emotion(top_emotion.type)}'
+    )
+
     utils.bot.send_text_message(chat_id=chat_id, text=text)
 
     s3_url = utils.upload_to_s3(url=picture_url, content=res.content)
 
-    first_emotion = emotions[0]
     selfie = utils.Selfie(
-        emotion_type=first_emotion.type,
-        emotion_confidence=first_emotion.confidence,
+        emotion_type=top_emotion.type,
+        emotion_confidence=top_emotion.confidence,
         timestamp=datetime.now(),
         url=s3_url,
     )
@@ -74,5 +129,5 @@ def teardown():
     utils.delete_bucket()
 
 
-# if __name__ == '__main__':
-#     app.run(host='0.0.0.0', port='5000')
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port='8000')

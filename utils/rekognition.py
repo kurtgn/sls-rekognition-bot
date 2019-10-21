@@ -3,9 +3,23 @@ from operator import attrgetter
 from typing import Optional, List
 
 import boto3
-import requests
 
 client = boto3.client('rekognition')
+
+
+class EmotionTypes:
+    HAPPY = 'happy'
+    ANGRY = 'angry'
+    SURPRISED = 'surprised'
+    FEAR = 'fear'
+    CONFUSED = 'confused'
+    DISGUSTED = 'disgusted'
+    SAD = 'sad'
+    CALM = 'calm'
+
+    all = [
+        HAPPY, ANGRY, SURPRISED, FEAR, CONFUSED, DISGUSTED, SAD, CALM
+    ]
 
 
 @dataclass
@@ -27,7 +41,7 @@ def get_emotions(content: bytes) -> Optional[List[Emotion]]:
         emotions = response['FaceDetails'][0]['Emotions']
 
         emotions = [
-            Emotion(type=e['Type'], confidence=e['Confidence'])
+            Emotion(type=e['Type'].lower(), confidence=e['Confidence'])
             for e in emotions
         ]
 

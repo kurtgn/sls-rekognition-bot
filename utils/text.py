@@ -17,4 +17,6 @@ def emotions_summary(emotions: List[Emotion]):
     SAD: 0.0
 
     """
-    return '\n'.join(f'{e.type}: {round(e.confidence, 2)}' for e in emotions)
+    return '\n'.join(
+        f'{e.type}: {round(e.confidence, 2)}' for e in emotions
+    )

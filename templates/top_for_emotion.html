@@ -1,0 +1,76 @@
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ emotion }} people</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css"
+          integrity="sha256-2YQRJMXD7pIAPHiXr0s+vlRWA7GYJEK0ARns7k2sbHY=" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
+          integrity="sha256-l85OmPOjvil/SOvVt3HnSSjzF1TUMyT9eV0c2BzEGzU=" crossorigin="anonymous"/>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <style>
+
+        body {
+            padding-top: 20px;
+        }
+        .selfie_image {
+            border: 1px solid gray;
+            padding: 5px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+
+<body style="padding-top: 20px;">
+<div class="container">
+
+    <label for="exampleRecipientInput">Select emotion</label>
+
+      <select class="u-full-width" id="emotion_select">
+          {% for type in EmotionTypes.all %}
+              <option value="{{ type }}" {% if type == emotion %}selected{% endif %}>Top {{ type }}</option>
+          {% endfor %}
+      </select>
+
+
+    {% if selfies %}
+
+
+    <h1>Top {{ emotion }} people today</h1>
+
+
+    <div class="row">
+
+         {% for selfie in selfies %}
+
+        <div class="four columns">
+
+            <div class="selfie_image">
+                {{ selfie.emotion_confidence|round(2) }}
+                <img src="{{ selfie.url }}" width="100%">
+            </div>
+
+
+        </div>
+    {% endfor %}
+
+    </div>
+
+    {% else %}
+
+        <br/>
+        <br/>
+
+        <h5>No {{ emotion }} people today!</h5>
+
+    {% endif %}
+
+
+
+</div>
+
+<script>
+    $('#emotion_select').change(function() {
+      window.location = '?emotion=' + $('#emotion_select').val();
+    })
+</script>
+</body>

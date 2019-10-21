@@ -3,6 +3,7 @@ import os
 from dataclasses import dataclass
 from datetime import datetime
 from decimal import Decimal
+from operator import attrgetter
 from typing import List
 
 import boto3
@@ -99,6 +100,10 @@ def get_selfies(emotion_type: str, limit: int, date: datetime) -> List[Selfie]:
 
     selfies = [item_to_selfie(item) for item in items]
 
+    selfies = sorted(
+        selfies, key=attrgetter('emotion_confidence'), reverse=True
+    )
+
     return selfies
 
 
@@ -114,6 +119,6 @@ if __name__ == '__main__':
     #     timestamp=datetime.now()
     # ))
 
-    results = get_selfies(emotion_type='aaa', date=datetime.now(), limit=100)
+    results = get_selfies(emotion_type='HAPPY', date=datetime.now(), limit=100)
     for r in results:
         print(r)
