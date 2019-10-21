@@ -9,7 +9,7 @@ This is a telegram bot that uses AWS Rekognition to detect emotions on selfies.
 
 ## ☁️ 0. Create AWS account, authorize your computer
 
-- If you don't have an AWS Account - create it (you will need to enter your credit card, sorry)
+- If you don't have an AWS Account - create it now
 - Install [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)
 - Configure CLI by running `aws configure` and enter your credentials ([manual here](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html#cli-quick-configuration))
 
